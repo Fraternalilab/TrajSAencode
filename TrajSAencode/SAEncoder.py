@@ -12,7 +12,7 @@ class SAEncoder:
         """
 
         self.sa_dict = sa_dict
-        self.fragment_size = int(len(self.sa_dict[list(self.sa_dict.keys())[0]])/3)
+        self.fragment_size = int(len(self.sa_dict[list(self.sa_dict.keys())[0]]) / 3)
         # Convert the sa library to a format compatible with the C wrapper
         self.sa_library = np.ndarray(shape=(len(self.sa_dict) * self.fragment_size, 3),
                                      buffer=np.array([self.sa_dict[key] for key in sorted(self.sa_dict.keys())]),
@@ -20,7 +20,7 @@ class SAEncoder:
         self.sa_library /= 10
         # Generate a mapping of the SA fragment name to its index
         self.sa_code_map = self._generate_samap()
-        self.output_file = None
+        self.output_file = {}
         self.output_file_name = ""
         self.ffi = FFI()
 
@@ -70,17 +70,16 @@ class SAEncoder:
         # If the file or chain has changed, close the file and open a new one
         if "%s.sasta" % name.split(">")[1].split("|")[0] != self.output_file_name:
             self.output_file_name = "%s.sasta" % name.split(">")[1].split("|")[0]
-            if self.output_file:
-                self.output_file.close()
-            self.output_file = open(self.output_file_name, "a")
+            if self.output_file_name not in self.output_file:
+                self.output_file[self.output_file_name] = open(self.output_file_name, "w")
         # Encode the protein frame
         encoded_string = self._c_encode(frame)
-        self.output_file.write(name)
-        self.output_file.write("\n")
-        self.output_file.write(encoded_string)
-        self.output_file.write("\n")
+        self.output_file[self.output_file_name].write(name)
+        self.output_file[self.output_file_name].write("\n")
+        self.output_file[self.output_file_name].write(encoded_string)
+        self.output_file[self.output_file_name].write("\n")
 
     def close_output(self):
-        self.output_file.close()
-        self.output_file = None
-
+        for key in self.output_file:
+            self.output_file[key].close()
+        self.output_file = {}

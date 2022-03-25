@@ -76,15 +76,18 @@ class TrajLoader:
                                atom_indices=self.ca_indexes, skip=self.skip, stride=self.stride)
 
         # Iterate over the trajectory
+        n_frames = self.start_f
+
         for chunk in traj:
             # Iterate over the number of chains
             for i, chain in enumerate(self.chains):
                 sliced_traj = chunk.atom_slice(chain)
-                n_frames = self.start_f
+                sliced_frames = n_frames
                 # Iterate over the frames for that chain
                 for frame in sliced_traj:
-                    n_frames += 1
-                    yield frame.xyz[0], self.generate_name(n_frames, i+1)
+                    sliced_frames += 1
+                    yield frame.xyz[0], self.generate_name(i+1, sliced_frames)
+            n_frames += self.chunk_size
 
     def generate_name(self, chain_num, frame_num):
         """
