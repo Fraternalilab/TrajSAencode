@@ -40,8 +40,8 @@ def main(args):
         else:
             trajectories = pdbs
             pdb = pdbs[0]
-    if pdb.split(".")[-1] != "pdb":
-        raise InputError("PDB files must end with .pdb")
+    if not pdb.split(".")[-1] in ["pdb", "gro"]:
+        raise InputError("PDB files must end with .pdb or .gro")
 
     if len(pdbs) == 1:
         print("Topology extracted from: %s" % pdbs[0])
