@@ -18,7 +18,7 @@ def parse_args():
     parser.add_argument('--chunk', type=int, required=False, default=1, help="Number of frames to load at once into memory")
     parser.add_argument('--start', type=int, required=False, default=0, help="Starting number for the output numbering")
     parser.add_argument('--skip', type=int, required=False, default=0, help="Frames to skip")
-    parser.add_argument('--stride', type=int, required=False, default=None, help="stride the trajectory")
+    parser.add_argument('--stride', type=int, required=False, default=1, help="stride the trajectory")
     arg = parser.parse_args()
     return arg
 
