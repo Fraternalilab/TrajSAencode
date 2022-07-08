@@ -571,25 +571,22 @@ static void (*_cffi_call_python_org)(struct _cffi_externpy_s *, char *);
 /************************************************************/
 
 static void *_cffi_types[] = {
-/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 15), // void()(unsigned int, unsigned int, unsigned int, float(*)[3], double(*)[3], int *)
+/*  0 */ _CFFI_OP(_CFFI_OP_FUNCTION, 12), // void()(unsigned int, unsigned int, unsigned int, float(*)[3], float(*)[3], int *)
 /*  1 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8), // unsigned int
 /*  2 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8),
 /*  3 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 8),
-/*  4 */ _CFFI_OP(_CFFI_OP_POINTER, 12), // float(*)[3]
-/*  5 */ _CFFI_OP(_CFFI_OP_POINTER, 9), // double(*)[3]
-/*  6 */ _CFFI_OP(_CFFI_OP_POINTER, 14), // int *
+/*  4 */ _CFFI_OP(_CFFI_OP_POINTER, 9), // float(*)[3]
+/*  5 */ _CFFI_OP(_CFFI_OP_NOOP, 4),
+/*  6 */ _CFFI_OP(_CFFI_OP_POINTER, 11), // int *
 /*  7 */ _CFFI_OP(_CFFI_OP_FUNCTION_END, 0),
-/*  8 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 14), // double
-/*  9 */ _CFFI_OP(_CFFI_OP_ARRAY, 8), // double[3]
+/*  8 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 13), // float
+/*  9 */ _CFFI_OP(_CFFI_OP_ARRAY, 8), // float[3]
 /* 10 */ (_cffi_opcode_t)(3),
-/* 11 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 13), // float
-/* 12 */ _CFFI_OP(_CFFI_OP_ARRAY, 11), // float[3]
-/* 13 */ (_cffi_opcode_t)(3),
-/* 14 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
-/* 15 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
+/* 11 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 7), // int
+/* 12 */ _CFFI_OP(_CFFI_OP_PRIMITIVE, 0), // void
 };
 
-static void _cffi_d_encode_frame(unsigned int x0, unsigned int x1, unsigned int x2, float(* x3)[3], double(* x4)[3], int * x5)
+static void _cffi_d_encode_frame(unsigned int x0, unsigned int x1, unsigned int x2, float(* x3)[3], float(* x4)[3], int * x5)
 {
   encode_frame(x0, x1, x2, x3, x4, x5);
 }
@@ -601,7 +598,7 @@ _cffi_f_encode_frame(PyObject *self, PyObject *args)
   unsigned int x1;
   unsigned int x2;
   float(* x3)[3];
-  double(* x4)[3];
+  float(* x4)[3];
   int * x5;
   Py_ssize_t datasize;
   struct _cffi_freeme_s *large_args_free = NULL;
@@ -637,10 +634,10 @@ _cffi_f_encode_frame(PyObject *self, PyObject *args)
   }
 
   datasize = _cffi_prepare_pointer_call_argument(
-      _cffi_type(5), arg4, (char **)&x4);
+      _cffi_type(4), arg4, (char **)&x4);
   if (datasize != 0) {
-    x4 = ((size_t)datasize) <= 640 ? (double(*)[3])alloca((size_t)datasize) : NULL;
-    if (_cffi_convert_array_argument(_cffi_type(5), arg4, (char **)&x4,
+    x4 = ((size_t)datasize) <= 640 ? (float(*)[3])alloca((size_t)datasize) : NULL;
+    if (_cffi_convert_array_argument(_cffi_type(4), arg4, (char **)&x4,
             datasize, &large_args_free) < 0)
       return NULL;
   }
@@ -685,7 +682,7 @@ static const struct _cffi_type_context_s _cffi_type_context = {
   0,  /* num_enums */
   0,  /* num_typenames */
   NULL,  /* no includes */
-  16,  /* num_types */
+  13,  /* num_types */
   0,  /* flags */
 };
 

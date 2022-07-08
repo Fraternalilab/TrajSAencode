@@ -67,7 +67,7 @@ double wrmsd_kabsch
 (
 	unsigned int size,
 	float (*Xarray)[3],
-	double (*Yarray)[3]
+	float (*Yarray)[3]
 );
 
 int kabsch

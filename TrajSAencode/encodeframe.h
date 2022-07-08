@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 void encode_frame(unsigned int n_windows, unsigned int n_fragments, unsigned int f_size, float (*MDframe)[3],
- double (*Fragments)[3], int *Encoding);
+ float (*Fragments)[3], int *Encoding);
 
 
  #if defined(__cplusplus)

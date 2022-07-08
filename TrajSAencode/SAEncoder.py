@@ -16,7 +16,7 @@ class SAEncoder:
         # Convert the sa library to a format compatible with the C wrapper
         self.sa_library = np.ndarray(shape=(len(self.sa_dict) * self.fragment_size, 3),
                                      buffer=np.array([self.sa_dict[key] for key in sorted(self.sa_dict.keys())]),
-                                     dtype=np.float64)
+                                     dtype=np.float32)
         self.sa_library /= 10
         # Generate a mapping of the SA fragment name to its index
         self.sa_code_map = self._generate_samap()
@@ -46,7 +46,7 @@ class SAEncoder:
         n_fragments = int(len(self.sa_dict))
         encoding = np.zeros(n_windows, dtype=np.int32)
         mdframe = self.ffi.cast("float(*)[3]", frame.ctypes.data)
-        fragments = self.ffi.cast("double(*)[3]", self.sa_library.ctypes.data)
+        fragments = self.ffi.cast("float(*)[3]", self.sa_library.ctypes.data)
         c_encoding = self.ffi.cast("int *", self.ffi.from_buffer(encoding, require_writable=True))
         # Call to the C function that does the encoding
         encode_frame(n_windows, n_fragments, self.fragment_size, mdframe, fragments, c_encoding)

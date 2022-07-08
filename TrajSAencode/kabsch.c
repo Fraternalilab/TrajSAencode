@@ -47,7 +47,7 @@
 /* C wrapper for python calls to Kabsch routine */
 /* 'Xarray' and 'Yarray' are coordinate array of 'size' (atoms,3) (points). */
 /* They are cast into the GSL matrix format for the Kabsch routine below. */
-double wrmsd_kabsch(unsigned int size, float (*Xarray)[3], double (*Yarray)[3]) //, double *rmsd)
+double wrmsd_kabsch(unsigned int size, float (*Xarray)[3], float (*Yarray)[3]) //, double *rmsd)
 {
 	unsigned int i;
 	//unsigned int isize = (int)*size;

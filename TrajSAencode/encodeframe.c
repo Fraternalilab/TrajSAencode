@@ -9,11 +9,11 @@
 #include <stdio.h>
 
 void encode_frame(unsigned int n_windows, unsigned int n_fragments, unsigned int f_size, float (*MDframe)[3],
- double (*Fragments)[3], int *Encoding)
+ float (*Fragments)[3], int *Encoding)
 {
   // allocating memory
   float MD_fragment[f_size][3];
-  double fragment[f_size][3];
+  float fragment[f_size][3];
   double rmsd[n_fragments];
   // Iterate over the MD frame using an sliding windows of size = f_size
   unsigned int i,j,k,l,m;
