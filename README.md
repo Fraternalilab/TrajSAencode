@@ -45,3 +45,8 @@ The trajectories **must** match the topology.
 The code will create one asta file for every trajectory.
 
 The memory usage is low so one can use trajetories of any size. However, it is recommended to create an sliced trajectory without waters first to decrease the computational cost.
+
+
+# Running the Clustering
+
+A provisional example of how to run the clustering can be found on the script run_cluster.py
