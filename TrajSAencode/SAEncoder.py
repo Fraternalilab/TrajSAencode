@@ -15,7 +15,7 @@ class SAEncoder:
         self.fragment_size = int(len(self.sa_dict[list(self.sa_dict.keys())[0]]) / 3)
         # Convert the sa library to a format compatible with the C wrapper
         self.sa_library = np.ndarray(shape=(len(self.sa_dict) * self.fragment_size, 3),
-                                     buffer=np.array([self.sa_dict[key] for key in sorted(self.sa_dict.keys())]),
+                                     buffer=np.array([self.sa_dict[key] for key in sorted(self.sa_dict.keys())], dtype=np.float32),
                                      dtype=np.float32)
         self.sa_library /= 10
         # Generate a mapping of the SA fragment name to its index
