@@ -26,19 +26,19 @@ class TrajProcessor:
             if self.output_file_name not in self.output_file:
                 self.output_file[self.output_file_name] = {} #open(self.output_file_name, "w")
         # Compute all distances from this frame
-        for i,atom in enumerate(frame.xyz[0]):
-            ones = np.ones(len(frame.xyz[0]))
-            distances = np.linalg(frame.xyz[0] - atom)
+        for i,atom in enumerate(frame):
+            ones = np.ones(len(frame))
+            distances = np.linalg.norm(frame - atom, axis=1)
             ones[distances > self.cutoff] = 0.0
             if not i in self.output_file[self.output_file_name]:
                 self.output_file[self.output_file_name][i] = ones
             else:
                 self.output_file[self.output_file_name][i] += ones
-            # also count frames
-            if not "frames" in self.output_file[self.output_file_name]:
-                self.output_file[self.output_file_name]["frames"] = 1
-            else:
-                self.output_file[self.output_file_name]["frames"] += 1
+        # also count frames
+        if not "frames" in self.output_file[self.output_file_name]:
+            self.output_file[self.output_file_name]["frames"] = 1
+        else:
+            self.output_file[self.output_file_name]["frames"] += 1
 
     def convert_to_fragments(self):
         """
@@ -60,14 +60,18 @@ class TrajProcessor:
                 self.output_file[key][key2] = new_array
 
 
-    def close_output(self):
+    def save_output(self):
         """
         Saves results to output file
         """
         for key in self.output_file:
             with open(key, "w") as out:
-                out.write("%s:[ " % key)
-                for element in self.output_file[key]:
-                    out.write("%s " % element)
-                out.write("]\n")
+                for key2 in self.output_file[key]:
+                    if key2 == "frames":
+                        out.write("frames : %s\n" % self.output_file[key][key2])
+                        continue
+                    out.write("%s:[ " % key2)
+                    for element in self.output_file[key][key2]:
+                        out.write("%s " % element)
+                    out.write("]\n")
 

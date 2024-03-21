@@ -1,7 +1,7 @@
 from TrajSAencode.TrajLoader import TrajLoader
 from TrajSAencode.SAEncoder import SAEncoder
 from TrajSAencode.SAlib import SADICT
-from TrajSAenconde.TrajProcessor import TrajProcessor
+from TrajSAencode.TrajProcessor import TrajProcessor
 import argparse
 
 
@@ -21,7 +21,7 @@ def parse_args():
     parser.add_argument('--skip', type=int, required=False, default=0, help="Frames to skip")
     parser.add_argument('--stride', type=int, required=False, default=1, help="stride the trajectory")
     parser.add_argument('--mode', type=str, required=False, default="all", help="Way to process the trajectory: Options: encode, distance, all")
-    parser.add_argument('--cutoff', type=float, required=False, default=5.0, help="cutoff to use to pick which atoms to account when computing distances")
+    parser.add_argument('--cutoff', type=float, required=False, default=10.0, help="cutoff to use to pick which atoms to account when computing distances")
     arg = parser.parse_args()
     return arg
 
