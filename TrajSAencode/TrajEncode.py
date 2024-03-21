@@ -1,6 +1,7 @@
 from TrajSAencode.TrajLoader import TrajLoader
 from TrajSAencode.SAEncoder import SAEncoder
 from TrajSAencode.SAlib import SADICT
+from TrajSAenconde.TrajProcessor import TrajProcessor
 import argparse
 
 
@@ -19,14 +20,20 @@ def parse_args():
     parser.add_argument('--start', type=int, required=False, default=0, help="Starting number for the output numbering")
     parser.add_argument('--skip', type=int, required=False, default=0, help="Frames to skip")
     parser.add_argument('--stride', type=int, required=False, default=1, help="stride the trajectory")
+    parser.add_argument('--mode', type=str, required=False, default="all", help="Way to process the trajectory: Options: encode, distance, all")
+    parser.add_argument('--cutoff', type=float, required=False, default=5.0, help="cutoff to use to pick which atoms to account when computing distances")
     arg = parser.parse_args()
     return arg
 
 
 def main(args):
     pdbs = args.pdb
+    cutoff = args.cutoff / 10
     trajectories = args.traj
-    sa_encoder = SAEncoder(SADICT)
+    if args.mode in ["all", "encode"]:
+        sa_encoder = SAEncoder(SADICT)
+    if args.mode in ["all", "distance"]:
+        traj_pros = TrajProcessor(SADICT, cutoff)
     # Some checks
     if len(pdbs) == 0:
         raise InputError("PDB file not found")
@@ -59,11 +66,21 @@ def main(args):
 
         nframes = 0
         for frame, name in traj_loader.frames():
-            sa_encoder.encode_protein(frame, name)
-            nframes += 1
+            if args.mode in ["all", "encode"]:
+                sa_encoder.encode_protein(frame, name)
+            if args.mode in ["all", "distance"]:
+                traj_pros.compute_distances(frame, name)
+            else:
+                print("Mode not found")
+                exit(1)
+            nframes += args.chunk
             print("Processed Frames: %s" % nframes, end="\r")
 
-    sa_encoder.close_output()
+    if args.mode in ["all", "encode"]:
+        sa_encoder.close_output()
+    if args.mode in ["all", "distance"]:
+        traj_pros.convert_to_fragments()
+        traj_pros.save_output()
 
     print("\nEncoding Finished")
 

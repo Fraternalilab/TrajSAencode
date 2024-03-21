@@ -24,6 +24,7 @@ class SAEncoder:
         self.output_file_name = ""
         self.ffi = FFI()
 
+
     def _generate_samap(self):
         """
         Generates a map of SA fragment names to their respective indexes
