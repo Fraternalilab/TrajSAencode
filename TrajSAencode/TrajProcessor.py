@@ -53,6 +53,8 @@ class TrajProcessor:
                     continue
                 # number of fragments we expect
                 num_fragments = len(self.output_file[key][key2]) - (self.fragment_size - 1)
+                if key2 >= num_fragments:
+                    continue
                 for i in range(0, num_fragments):
                     # number of times it was close enough
                     value = np.max(self.output_file[key][key2][i:i+self.fragment_size])
