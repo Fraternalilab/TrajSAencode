@@ -47,12 +47,12 @@ class TrajProcessor:
         """ 
         for key in self.output_file:
             # key 1 is the file name and key 2 is the residues
+            # number of fragments we expect
+            num_fragments = len(self.output_file[key][0]) - (self.fragment_size - 1)
             for key2 in self.output_file[key]:
                 new_array = []
                 if key2 == "frames":
                     continue
-                # number of fragments we expect
-                num_fragments = len(self.output_file[key][key2]) - (self.fragment_size - 1)
                 if key2 >= num_fragments:
                     continue
                 for i in range(0, num_fragments):
